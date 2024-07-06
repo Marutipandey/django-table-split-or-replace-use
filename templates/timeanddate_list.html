@@ -1,0 +1,22 @@
+<!-- timeanddate_list.html -->
+{% load tz %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Time and Date List</title>
+</head>
+<body>
+    <h1>Time and Date List</h1>
+    <a href="{% url 'timeanddate_create' %}">Create new</a>
+    <ul>
+        {% for item in time_and_date_items %}
+            <li>
+                {{ item.bookname }} -
+                Created: {{ item.created_date|timezone:user_timezone|date:"DATETIME_FORMAT" }}
+                Updated: {{ item.updated_date|timezone:user_timezone|date:"DATETIME_FORMAT" }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

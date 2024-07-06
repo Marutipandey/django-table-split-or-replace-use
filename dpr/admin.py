@@ -3,6 +3,7 @@ from django.contrib import admin
 # Register your models here.
 # dps/admin.py
 
-from .dps import Data
+from .models import TimeAndDate
 
-admin.site.register(Data)
+admin.site.register(TimeAndDate)
+

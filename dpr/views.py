@@ -1,45 +1,54 @@
+# views.py
+
+from django.shortcuts import render,redirect
+from django.utils import timezone
+from .models import TimeAndDate
+from .forms import TimeAndDateForm
+import pytz
+
 from django.shortcuts import render
+import pytz
+from .models import TimeAndDate
 
-# Create your views here.
-# dps/views.py
+def timeanddate_list(request):
+    time_and_date_items = TimeAndDate.objects.all()
+    
+    # Get user's preferred timezone from session, default to UTC if not set
+    user_timezone = request.session.get('user_timezone', 'UTC')
+    
+    # Convert created_date and updated_date to user's local timezone
+    for item in time_and_date_items:
+        if item.created_date:
+            item.created_date = item.created_date.astimezone(pytz.timezone(user_timezone))
+        if item.updated_date:
+            item.updated_date = item.updated_date.astimezone(pytz.timezone(user_timezone))
+    
+    context = {
+        'time_and_date_items': time_and_date_items,
+        'user_timezone': user_timezone,
+    }
+    
+    return render(request, 'timeanddate_list.html', context)
 
-from django.shortcuts import render, redirect
-from .dps import Data
-from .forms import DataForm
-
-
-# dpr/views.py
-
-def home(request):
-    data = Data.objects.all()
-    return render(request, 'home.html', {'data': data})
-
-def create_data(request):
+# Example of setting user's timezone preference in a view
+def set_user_timezone(request):
     if request.method == 'POST':
-        form = DataForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')  # Redirect to the homepage after saving
+        user_timezone = request.POST.get('timezone')  # Assuming you have a form field named 'timezone'
+        request.session['user_timezone'] = user_timezone
+        return redirect('timeanddate_list')
     else:
-        form = DataForm()
-    return render(request, 'create.html', {'form': form})
-# dpr/views.py
-# dpr/views.py
+        return render(request, 'set_timezone.html')  # Example template for setting timezone
 
-def update_data(request, id):
-    data = Data.objects.get(id=id)
+
+def timeanddate_create(request):
     if request.method == 'POST':
-        form = DataForm(request.POST, instance=data)
+        form = TimeAndDateForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')  # Redirect to the homepage after updating
+            time_and_date_item = form.save(commit=False)
+            time_and_date_item.save()
+            return redirect('timeanddate_list')
     else:
-        form = DataForm(instance=data)
-    return render(request, 'update_data.html', {'form': form})
+        form = TimeAndDateForm()
+    return render(request, 'timeanddate_form.html', {'form': form, 'title': 'Create Time and Date'})
 
-
-def delete_data(request, id):
-    data = Data.objects.get(id=id)
-    data.delete()
-    return redirect('home')
-
+# Implement other views (edit, delete) as needed

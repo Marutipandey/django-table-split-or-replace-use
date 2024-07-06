@@ -1,18 +1,143 @@
-<!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-    <h1>Data List</h1>
-    <ul>
-        {% for item in data %}
-            <li>{{ item.name }} - {{ item.email }} - {{ item.age }}</li>
+    <div class="container mt-5">
+        <h1>Data List</h1>
+
+        <!-- Display school names in cards -->
+        {% for school_data in data_with_school %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ school_data.school }}</h5>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="tab1-tab-{{ forloop.counter }}" data-toggle="tab"
+                            href="#tab1-{{ forloop.counter }}" role="tab"
+                            aria-controls="tab1-{{ forloop.counter }}"
+                            aria-selected="true">pp</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab2-tab-{{ forloop.counter }}" data-toggle="tab"
+                            href="#tab2-{{ forloop.counter }}" role="tab"
+                            aria-controls="tab2-{{ forloop.counter }}"
+                            aria-selected="false">pppp</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab3-tab-{{ forloop.counter }}" data-toggle="tab"
+                            href="#tab3-{{ forloop.counter }}" role="tab"
+                            aria-controls="tab3-{{ forloop.counter }}"
+                            aria-selected="false">pppppp</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tab1-{{ forloop.counter }}" role="tabpanel"
+                        aria-labelledby="tab1-tab-{{ forloop.counter }}">
+                        <table class="table table-striped mt-3">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Age</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if school_data.data.name == "pp" %}
+                                <tr>
+                                    <td>{{ school_data.data.name }}</td>
+                                    <td>{{ school_data.data.email }}</td>
+                                    <td>{{ school_data.data.age }}</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="tab2-{{ forloop.counter }}" role="tabpanel"
+                        aria-labelledby="tab2-tab-{{ forloop.counter }}">
+                        <table class="table table-striped mt-3">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Age</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if school_data.data.name == "pppp" %}
+                                <tr>
+                                    <td>{{ school_data.data.name }}</td>
+                                    <td>{{ school_data.data.email }}</td>
+                                    <td>{{ school_data.data.age }}</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="tab3-{{ forloop.counter }}" role="tabpanel"
+                        aria-labelledby="tab3-tab-{{ forloop.counter }}">
+                        <table class="table table-striped mt-3">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Age</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if school_data.data.name == "pppppp" %}
+                                <tr>
+                                    <td>{{ school_data.data.name }}</td>
+                                    <td>{{ school_data.data.email }}</td>
+                                    <td>{{ school_data.data.age }}</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         {% endfor %}
-    </ul>
-    <a href="{% url 'create_data' %}">Add New Data</a>
+
+        <!-- Display all data in a simple table -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>School</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for school_data in data_with_school %}
+                <tr>
+                    <td>{{ school_data.data.name }}</td>
+                    <td>{{ school_data.data.email }}</td>
+                    <td>{{ school_data.data.age }}</td>
+                    <td>{{ school_data.school }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Link to add new data -->
+        <a href="{% url 'create_data' %}" class="btn btn-primary mt-3">Add New Data</a>
+    </div>
+
+    <!-- Bootstrap JS dependencies -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
+
 </html>

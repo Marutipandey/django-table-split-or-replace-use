@@ -1,0 +1,25 @@
+<!-- set_timezone.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Set Timezone Preference</title>
+</head>
+<body>
+    <h1>Set Your Timezone Preference</h1>
+    <form method="post" action="{% url 'set_user_timezone' %}">
+        {% csrf_token %}
+        <label for="timezone">Select your timezone:</label>
+        <select id="timezone" name="timezone">
+            <option value="UTC">UTC</option>
+            <option value="America/New_York">America/New_York</option>
+            <option value="Asia/Tokyo">Asia/Tokyo</option>
+            <option value="Asia/Kolkata">Asia/Kolkata (India Standard Time)</option>
+            <!-- Add more options based on your needs -->
+        </select>
+        
+        <button type="submit">Save Timezone</button>
+    </form>
+</body>
+</html>

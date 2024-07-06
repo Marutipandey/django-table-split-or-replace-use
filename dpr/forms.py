@@ -1,9 +1,8 @@
-# dpr/forms.py
-
 from django import forms
-from .dps import Data
+from .models import  TimeAndDate
 
-class DataForm(forms.ModelForm):
+
+class TimeAndDateForm(forms.ModelForm):
     class Meta:
-        model = Data
-        fields = '__all__'  # Include all fields in the form
+        model = TimeAndDate
+        fields = ['bookname']
